@@ -14,22 +14,25 @@
 
 int	ft_putchar(char c)
 {
-	write (1, &c, 1);
+	if (write (1, &c, 1) < 0)
+		return (-1);
 	return (1);
 }
 
 size_t	ft_putstr(char *s)
 {
-	size_t		len;
+	size_t	len;
+	ssize_t	bytes_written;
 
 	len = 0;
 	if (!s)
 		return (write(1, "(null)", 6));
 	while (s[len] != '\0')
 		len++;
-	if (s)
-		write(1, s, len);
-	return (len);
+	bytes_written = write(1, s, len);
+	if (bytes_written == -1)
+		return (-1);
+	return (bytes_written);
 }
 
 int	digit(unsigned long long n, int base)

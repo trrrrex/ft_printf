@@ -40,6 +40,8 @@ int	ft_printf(const char *str, ...)
 
 	i = 0;
 	len = 0;
+	if (!str)
+		return (-1);
 	va_start(arg, str);
 	while (str[i])
 	{
@@ -52,5 +54,6 @@ int	ft_printf(const char *str, ...)
 		else
 			len += ft_putchar(str[i++]);
 	}
+	va_end(arg);
 	return (len);
 }
