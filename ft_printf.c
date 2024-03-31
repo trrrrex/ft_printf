@@ -12,47 +12,56 @@
 
 #include "ft_printf.h"
 
-void	ft_format(char c, va_list *arg, int *len)
-{
+int	ft_format(char c, va_list *arg, int *len)
+{	
+	len = 0;
 	if (c == 'c')
-		*len += ft_putchar(va_arg(*arg, int));
+		return (ft_putchar(va_arg(*arg, int)));
 	if (c == 's')
-		*len += ft_putstr(va_arg(*arg, char *));
+		return (ft_putstr(va_arg(*arg, char *)));
 	if (c == 'd' || c == 'i')
-		*len += ft_putascii(va_arg(*arg, signed int), B_10, DEC, SIG);
+		return (ft_putascii(va_arg(*arg, signed int), B_10, DEC, SIG));
 	if (c == 'u')
-		*len += ft_putascii(va_arg(*arg, unsigned int), B_10, DEC, NO_FLAG);
+		return (ft_putascii(va_arg(*arg, unsigned int), B_10, DEC, NO_FLAG));
 	if (c == 'p')
-		*len += ft_putascii(va_arg(*arg, unsigned long long), B_16, LHEX, PTR);
+		return (ft_putascii(va_arg(*arg, unsigned long long), B_16, LHEX, PTR));
 	if (c == 'x')
-		*len += ft_putascii(va_arg(*arg, unsigned int), B_16, LHEX, NO_FLAG);
+		return (ft_putascii(va_arg(*arg, unsigned int), B_16, LHEX, NO_FLAG));
 	if (c == 'X')
-		*len += ft_putascii(va_arg(*arg, unsigned int), B_16, UHEX, NO_FLAG);
+		return (ft_putascii(va_arg(*arg, unsigned int), B_16, UHEX, NO_FLAG));
 	if (c == '%')
-		*len += write(1, "%", 1);
+		return (write(1, "%", 1));
+	return (0);
 }
 
 int	ft_printf(const char *str, ...)
 {
 	va_list	arg;
-	int		i;
 	int		len;
+	int		ret;
+	int		i;
 
 	i = 0;
 	len = 0;
-	if (!str)
-		return (-1);
 	va_start(arg, str);
 	while (str[i])
 	{
 		if (str[i] == '%')
 		{
-			ft_format(str[i], &arg, &len);
+			ret = ft_format(str[i], &arg, &len);
+			if (ret == -1)
+				return (-1);
+			len += ret;
 			i++;
 		}
-		else
-			len += ft_putchar(str[i++]);
+		elsec
+		{
+			ret = ft_putchar(str[i++]);
+			if (ret == -1)
+				return (-1);
+			len += ret;
+		}
 	}
-	va_end(arg);
 	return (len);
 }
+
