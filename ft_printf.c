@@ -54,7 +54,7 @@ int	ft_printf(const char *str, ...)
 			len += ret;
 			i++;
 		}
-		elsec
+		else
 		{
 			ret = ft_putchar(str[i++]);
 			if (ret == -1)
