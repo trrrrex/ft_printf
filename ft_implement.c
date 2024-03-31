@@ -21,18 +21,17 @@ int	ft_putchar(char c)
 
 size_t	ft_putstr(char *s)
 {
-	size_t	len;
-	ssize_t	bytes_written;
+	size_t		len;
 
 	len = 0;
 	if (!s)
 		return (write(1, "(null)", 6));
 	while (s[len] != '\0')
 		len++;
-	bytes_written = write(1, s, len);
-	if (bytes_written == -1)
-		return (-1);
-	return (bytes_written);
+	if (s)
+		if (write(1, s, len) == -1)
+			return (-1);
+	return (len);
 }
 
 int	digit(unsigned long long n, int base)
@@ -87,6 +86,8 @@ int	ft_putascii(ssize_t n, int base, char c, char a)
 		len += write(1, "-", 1);
 	}
 	str = ft_itoa_base(n, base, c);
+	if (str == 0)
+		return (-1);
 	len += ft_putstr(str);
 	free(str);
 	return (len);
